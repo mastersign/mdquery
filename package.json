@@ -1,6 +1,6 @@
 {
   "name": "mdquery",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Creates tables from hierarchical structured data in Markdown documents.",
   "main": "src/index.js",
   "scripts": {
