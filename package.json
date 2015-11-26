@@ -1,0 +1,24 @@
+{
+  "name": "mdquery",
+  "version": "0.1.0",
+  "description": "Creates tables from hierarchical structured data in Markdown documents.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": "mastersign/mdquery",
+  "keywords": [
+    "Markdown",
+    "mddata",
+    "query",
+    "data",
+    "table"
+  ],
+  "author": "Tobias Kiertscher <dev@mastersign.de>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^3.0.0",
+    "through2": "^2.0.0",
+    "mddata": "^0.2.0"
+  }
+}
