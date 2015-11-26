@@ -3,7 +3,7 @@
 var os = require('os');
 var fs = require('fs');
 var _ = require('lodash');
-var through = require('through');
+var through = require('through2');
 var mdd = require('mddata');
 
 var __debug = function (msg) {
