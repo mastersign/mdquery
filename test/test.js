@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var os = require('os');
+var File = require('vinyl');
 var assert = require('assert');
 var mdq = require('../src/index');
 
@@ -330,6 +331,25 @@ describe('mddata', function () {
 				var expected = fs.readFileSync('./test/data/data-table-complex.expected.md', 'utf-8');
 				var result = mdq.transform(source);
 				assert.equal(result, expected, 'Markdown text does meet the expectation');
+			});
+
+		});
+
+		describe('as a Gulp transformation', function () {
+
+			it('should transform the vinyl file object', function (done) {
+				var fakeFile = new File({
+					contents: new Buffer(fs.readFileSync('./test/data/data-table-complex.md'))
+				});
+				var expected = fs.readFileSync('./test/data/data-table-complex.expected.md', 'utf-8');
+
+				var stream = mdq.transform();
+				stream.write(fakeFile);
+				stream.once('data', function (file) {
+					var result = file.contents.toString('utf-8');
+					assert.equal(result, expected, 'transformed file does not match expected file');
+					done();
+				});
 			});
 
 		});
