@@ -3,8 +3,8 @@
 var os = require('os');
 var fs = require('fs');
 var _ = require('lodash');
-var through = require('through2');
 var mdd = require('mddata');
+var textTransformation = require('gulp-text-simple');
 
 var __debug = function (msg) {
 	// console.log('# ' + msg);
@@ -383,46 +383,10 @@ var transformText = function (text) {
 	return text;
 };
 
-var transformBuffer = function (buffer) {
-	'use strict';
-	return new Buffer(transformText(buffer.toString('utf8')), 'utf8');
-};
-
-var transform = function (fileOrText) {
-	'use strict';
-
-	if (fileOrText) {
-		if (typeof(fileOrText) === 'string') {
-			// transform(text) -> returns the transformed content of the text
-			return transformText(fileOrText);
-		} else {
-			throw new TypeError('Invalid argument, expects a string.');
-		}
-	}
-
-	// transform() -> gulp transformation step
-	return through.obj(function (file, enc, cb) {
-		if (file.isNull()) {
-			this.push(file);
-			cb();
-			return;
-		}
-		if (file.isBuffer()) {
-			file.contents = transformBuffer(file.contents, path.dirname(file.path));
-			this.push(file);
-			cb();
-			return;
-		}
-		if (file.isStream()) {
-			throw 'Streams are not supported.';
-		}
-	});
-};
-
 module.exports = {
 	select: findNodes,
 	query: table,
 	formatMarkdownTable: formatMarkdownTable,
 	formatMarkdownList: formatMarkdownList,
-	transform: transform,
+	transform: textTransformation(transformText),
 };

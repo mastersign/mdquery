@@ -18,8 +18,8 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "^3.0.0",
-    "through2": "^2.0.0",
-    "mddata": "^0.2.0"
+    "mddata": "^0.3.0",
+    "gulp-text-simple": "^0.3.0"
   },
   "devDependencies": {
     "vinyl": "^1.0.0"
