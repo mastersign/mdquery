@@ -26,6 +26,7 @@ describe('mddata', function () {
 					"name": "Section 1",
 					"typ": "headline",
 					"id": "s_1",
+					"anchor": "s_1",
 					"path": [0]
 				}
 			];
@@ -39,6 +40,7 @@ describe('mddata', function () {
 					"name": "Section 1",
 					"typ": "headline",
 					"id": "s_1",
+					"anchor": "s_1",
 					"path": [0]
 				}
 			];
@@ -52,6 +54,7 @@ describe('mddata', function () {
 					"name": "Section 1",
 					"typ": "headline",
 					"id": "s_1",
+					"anchor": "s_1",
 					"path": [0]
 				}
 			];
@@ -71,11 +74,13 @@ describe('mddata', function () {
 					"name": "Section 1",
 					"typ": "headline",
 					"id": "s_1",
+					"anchor": "s_1",
 					"path": [0]
 				},
 				{
 					"name": "Section 2",
 					"typ": "headline",
+					"anchor": "section-2",
 					"path": [1]
 				}
 			];
@@ -176,7 +181,7 @@ describe('mddata', function () {
 				columns: [{ text: 'Name' }],
 				rows: [
 					[{ text: 'Section 1', href: '#s_1' }],
-					[{ text: 'Section 2'}]
+					[{ text: 'Section 2', href: '#section-2'}]
 				]
 			};
 			assert.deepEqual(result, expected, 'result does not match expected table');

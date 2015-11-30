@@ -28,3 +28,7 @@ Which is an example for an arbitrary paragraph.
 3. List 2.3: 23
     * A
     * B
+
+# Chapter 3
+
+A paragraph only.

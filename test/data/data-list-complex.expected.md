@@ -4,6 +4,7 @@ The following list was generated automatically:
 
 * [Chapter 1](#ch1)
 * [Chapter 2](#ch2)
+* [Chapter 3](#chapter-3)
 
 And this list was generated automatically too:
 
@@ -37,3 +38,7 @@ Which is an example for an arbitrary paragraph.
 3. List 2.3 (third): 23
     * A
     * B
+
+# Chapter 3
+
+A paragraph only.
