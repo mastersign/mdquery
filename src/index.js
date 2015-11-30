@@ -220,8 +220,8 @@ var cellFromNode = function(node, attribute) {
 	}
 	if (attribute === 'name') {
 		var cell = { text: node.name };
-		if (node.id) {
-			cell.href = '#' + node.id;
+		if (node.anchor) {
+			cell.href = '#' + node.anchor;
 		}
 		return cell;
 	}
@@ -253,8 +253,8 @@ var table = function (data, query) {
 				columns: [{ text: 'Name' }],
 				rows: _.map(nodes, function (n) {
 					var cell = { text: n.name };
-					if (n.id) {
-						cell.href = '#' + n.id;
+					if (n.anchor) {
+						cell.href = '#' + n.anchor;
 					}
 					return [cell];
 				})
@@ -267,8 +267,8 @@ var table = function (data, query) {
 				],
 				rows: _.map(nodes, function (n) {
 					var nameCell = { text: n.name };
-					if (n.id) {
-						nameCell.href = '#' + n.id;
+					if (n.anchor) {
+						nameCell.href = '#' + n.anchor;
 					}
 					var valueCell = { text: n.value ? n.value : null };
 					return [nameCell, valueCell];
