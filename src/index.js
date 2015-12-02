@@ -128,6 +128,9 @@ var globPath = function globPath(coll, queryPath, absolute, path, result) {
 	}
 	__debug('GLOB ' + formatData(coll));
 	__debug('GLOB Path (absolute=' + absolute + '): ' + queryPath);
+	if (queryPath[0] === '**') {
+		return globPath(coll, _.drop(queryPath), false, path, result);
+	}
 	path = path || [];
 	result = result || [];
 	var criterium = buildCriterium(queryPath[0]);
