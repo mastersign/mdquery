@@ -1,4 +1,4 @@
-/* global require, describe, it */
+/* global require, Buffer, describe, it, beforeEach */
 
 var fs = require('fs');
 var os = require('os');
@@ -144,6 +144,23 @@ describe('mddata', function () {
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
 		});
+		
+		it('list/* -> [a, b]', function () {
+			var result = mdq.select(data, 'list/*');
+			var expected = [
+				{
+					"name": "a",
+					"typ": "ulist",
+					"path": [0, 3, 2, 0, 0]
+				},
+				{
+					"name": "b",
+					"typ": "ulist",
+					"path": [0, 3, 2, 0, 1]
+				}
+			];
+			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
+		});
 
 		it('list/a/* -> [x, y]', function () {
 			var result = mdq.select(data, 'list/a/*');
@@ -216,6 +233,25 @@ describe('mddata', function () {
 				rows: [
 					[{ text: 'Property X' }, { text: '`Value`' }],
 					[{ text: 'Property Y' }, { text: null }]
+				]
+			};
+			assert.deepEqual(result, expected, 'result does not match expected table');
+		});
+
+		it('list/* (List, X, Y) -> rows=2', function () {
+			var result = mdq.query(data, {
+				selector: 'list/*',
+				columns: [
+					{ name: 'List', selector: '', attribute: 'name' },
+					{ name: 'X', selector: 'x', attribute: 'value' },
+					{ name: 'Y', selector: './y', attribute: 'value' }
+				]
+			});
+			var expected = {
+				columns: [{ text: 'List' }, { text: 'X' }, { text: 'Y' }],
+				rows: [
+					[{ text: 'a' }, { text: '3' }, { text: '4' }],
+					[{ text: 'b' }, { text: '5' }, { text: '6' }],
 				]
 			};
 			assert.deepEqual(result, expected, 'result does not match expected table');
