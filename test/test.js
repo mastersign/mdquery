@@ -115,6 +115,40 @@ describe('mddata', function () {
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
 		});
+		
+		it('/Section 2/**/*Point* -> [First Point, Second Point, Third Point, Point 2.1, Point 2.2]', function () {
+			var result = mdq.select(data, '/Section 2/**/*Point*');
+			var expected = [
+				{
+					"name": "First Point",
+					"typ": "olist",
+					"path": [1, 0]
+				},
+				{
+					"name": "Second Point",
+					"typ": "olist",
+					"value": "123",
+					"path": [1, 1]
+				},
+				{
+					"name": "Third Point",
+					"typ": "olist",
+					"path": [1, 2]
+				},
+				{
+					"name": "Point 2.1",
+					"typ": "olist",
+					"path": [1, 1, 0]
+				},
+				{
+					"name": "Point 2.2",
+					"typ": "olist",
+					"value": "456",
+					"path": [1, 1, 1]
+				}
+			];
+			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
+		});
 
 		it('List -> [List]', function () {
 			var result = mdq.select(data, 'List');
