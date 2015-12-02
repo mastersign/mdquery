@@ -42,7 +42,7 @@ var parsePath = function (path) {
 
 var buildCriterium = function (pathPart) {
 	'use strict';
-	var typTest = function () { return true; };
+	var typTest = function (t) { return true; };
 	var separator = pathPart.indexOf(':');
 	if (separator > -1) {
 		var typ = pathPart.slice(0, separator);
@@ -146,7 +146,7 @@ var globPath = function globPath(coll, queryPath, absolute, path, result) {
 			var e = s[1];
 			if (e.children) {
 				result = globPath(e.children, _.drop(queryPath),
-					absolute, p, result);
+					true, p, result);
 			}
 		});
 	}
@@ -188,6 +188,7 @@ var firstMatchingChild = function (node, criterium) {
 var findRelativeNode = function (coll, refPath, selector) {
 	'use strict';
 	var queryPath = parsePath(selector);
+	refPath = _.clone(refPath);
 	var n = resolvePath(coll, refPath);
 	__debug('FIND RELATIVE ROOT ' + formatData(n));
 	_.forEach(queryPath, function (q) {
