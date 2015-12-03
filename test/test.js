@@ -115,7 +115,7 @@ describe('mddata', function () {
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
 		});
-		
+
 		it('/Section 2/**/*Point* -> [First Point, Second Point, Third Point, Point 2.1, Point 2.2]', function () {
 			var result = mdq.select(data, '/Section 2/**/*Point*');
 			var expected = [
@@ -178,7 +178,7 @@ describe('mddata', function () {
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
 		});
-		
+
 		it('list/* -> [a, b]', function () {
 			var result = mdq.select(data, 'list/*');
 			var expected = [
