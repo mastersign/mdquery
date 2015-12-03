@@ -1,7 +1,6 @@
-/* global require */
+/* global require, module */
 
 var os = require('os');
-var fs = require('fs');
 var _ = require('lodash');
 var mdd = require('mddata');
 var textTransformation = require('gulp-text-simple');
@@ -33,8 +32,8 @@ var formatData = function (data) {
 
 var parsePath = function (path) {
 	'use strict';
-	if (typeof(path) == 'string') {
-		return path.split("/");
+	if (typeof(path) === 'string') {
+		return path.split('/');
 	} else {
 		return path;
 	}
@@ -85,11 +84,11 @@ var formatResult = function (selection) {
 var extendResultList = function (resultList, additionals) {
 	'use strict';
 	function arraysEqual(a, b) {
-		if (a === b) return true;
-		if (a === null || b === null) return false;
-		if (a.length != b.length) return false;
+		if (a === b) { return true; }
+		if (a === null || b === null) {	return false; }
+		if (a.length !== b.length) { return false; }
 		for (var i = 0; i < a.length; ++i) {
-			if (a[i] !== b[i]) return false;
+			if (a[i] !== b[i]) { return false; }
 		}
 		return true;
 	}
@@ -297,19 +296,19 @@ var formatMarkdownList = function (table) {
 	'use strict';
 	var md = '';
 	var rowCnt = _.size(table.rows);
-	if (_.size(table.columns) == 1) {
+	if (_.size(table.columns) === 1) {
 		_.forEach(table.rows, function (row, i) {
-			md += "* " + formatMarkdownCell(row[0]);
+			md += '* ' + formatMarkdownCell(row[0]);
 			if (i < rowCnt - 1) {
 				md += os.EOL;
 			}
 		});
 	} else if (_.size(table.columns) > 1) {
 		_.forEach(table.rows, function (row, i) {
-			md += "* " + formatMarkdownCell(row[0]);
+			md += '* ' + formatMarkdownCell(row[0]);
 			var value = formatMarkdownCell(row[1]);
 			if (value) {
-				md += ": " + value;
+				md += ': ' + value;
 			}
 			if (i < rowCnt - 1) {
 				md += os.EOL;
@@ -348,7 +347,7 @@ var formatMarkdownTable = function (table) {
 var transformText = function (text) {
 	'use strict';
 	var parseColumns = function (spec) {
-		var lines = _.map(spec.split("\n"),
+		var lines = _.map(spec.split('\n'),
 			function (l) { return _.trim(l); });
 		var colRegex = /^#column\s+([^:]+?)\s*:\s+([^\s\(]+)\((.*?)\)$/;
 		var columns = _.map(lines, function (l) {
