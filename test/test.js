@@ -23,11 +23,11 @@ describe('mddata', function () {
 			var result = mdq.select(data, '/Section 1');
 			var expected = [
 				{
-					"name": "Section 1",
-					"typ": "headline",
-					"id": "s_1",
-					"anchor": "s_1",
-					"path": [0]
+					'name': 'Section 1',
+					'typ': 'headline',
+					'id': 's_1',
+					'anchor': 's_1',
+					'path': [0]
 				}
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
@@ -37,11 +37,11 @@ describe('mddata', function () {
 			var result = mdq.select(data, '/:Section 1');
 			var expected = [
 				{
-					"name": "Section 1",
-					"typ": "headline",
-					"id": "s_1",
-					"anchor": "s_1",
-					"path": [0]
+					'name': 'Section 1',
+					'typ': 'headline',
+					'id': 's_1',
+					'anchor': 's_1',
+					'path': [0]
 				}
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
@@ -51,11 +51,11 @@ describe('mddata', function () {
 			var result = mdq.select(data, '/headline:Section 1');
 			var expected = [
 				{
-					"name": "Section 1",
-					"typ": "headline",
-					"id": "s_1",
-					"anchor": "s_1",
-					"path": [0]
+					'name': 'Section 1',
+					'typ': 'headline',
+					'id': 's_1',
+					'anchor': 's_1',
+					'path': [0]
 				}
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
@@ -71,17 +71,17 @@ describe('mddata', function () {
 			var result = mdq.select(data, '/*');
 			var expected = [
 				{
-					"name": "Section 1",
-					"typ": "headline",
-					"id": "s_1",
-					"anchor": "s_1",
-					"path": [0]
+					'name': 'Section 1',
+					'typ': 'headline',
+					'id': 's_1',
+					'anchor': 's_1',
+					'path': [0]
 				},
 				{
-					"name": "Section 2",
-					"typ": "headline",
-					"anchor": "section-2",
-					"path": [1]
+					'name': 'Section 2',
+					'typ': 'headline',
+					'anchor': 'section-2',
+					'path': [1]
 				}
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
@@ -91,9 +91,9 @@ describe('mddata', function () {
 			var result = mdq.select(data, '/Section 1/List');
 			var expected = [
 				{
-					"name": "List",
-					"typ": "ulist",
-					"path": [0, 0]
+					'name': 'List',
+					'typ': 'ulist',
+					'path': [0, 0]
 				}
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
@@ -103,14 +103,14 @@ describe('mddata', function () {
 			var result = mdq.select(data, '/Section 1/List/*');
 			var expected = [
 				{
-					"name": "Entry A",
-					"typ": "ulist",
-					"path": [0, 0, 0]
+					'name': 'Entry A',
+					'typ': 'ulist',
+					'path': [0, 0, 0]
 				},
 				{
-					"name": "Entry B",
-					"typ": "ulist",
-					"path": [0, 0, 1]
+					'name': 'Entry B',
+					'typ': 'ulist',
+					'path': [0, 0, 1]
 				}
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
@@ -120,31 +120,31 @@ describe('mddata', function () {
 			var result = mdq.select(data, '/Section 2/**/*Point*');
 			var expected = [
 				{
-					"name": "First Point",
-					"typ": "olist",
-					"path": [1, 0]
+					'name': 'First Point',
+					'typ': 'olist',
+					'path': [1, 0]
 				},
 				{
-					"name": "Second Point",
-					"typ": "olist",
-					"value": "123",
-					"path": [1, 1]
+					'name': 'Second Point',
+					'typ': 'olist',
+					'value': '123',
+					'path': [1, 1]
 				},
 				{
-					"name": "Third Point",
-					"typ": "olist",
-					"path": [1, 2]
+					'name': 'Third Point',
+					'typ': 'olist',
+					'path': [1, 2]
 				},
 				{
-					"name": "Point 2.1",
-					"typ": "olist",
-					"path": [1, 1, 0]
+					'name': 'Point 2.1',
+					'typ': 'olist',
+					'path': [1, 1, 0]
 				},
 				{
-					"name": "Point 2.2",
-					"typ": "olist",
-					"value": "456",
-					"path": [1, 1, 1]
+					'name': 'Point 2.2',
+					'typ': 'olist',
+					'value': '456',
+					'path': [1, 1, 1]
 				}
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
@@ -154,9 +154,9 @@ describe('mddata', function () {
 			var result = mdq.select(data, 'List');
 			var expected = [
 				{
-					"name": "List",
-					"typ": "ulist",
-					"path": [0, 0]
+					'name': 'List',
+					'typ': 'ulist',
+					'path': [0, 0]
 				}
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
@@ -166,14 +166,14 @@ describe('mddata', function () {
 			var result = mdq.select(data, 'List/*');
 			var expected = [
 				{
-					"name": "Entry A",
-					"typ": "ulist",
-					"path": [0, 0, 0]
+					'name': 'Entry A',
+					'typ': 'ulist',
+					'path': [0, 0, 0]
 				},
 				{
-					"name": "Entry B",
-					"typ": "ulist",
-					"path": [0, 0, 1]
+					'name': 'Entry B',
+					'typ': 'ulist',
+					'path': [0, 0, 1]
 				}
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
@@ -183,14 +183,14 @@ describe('mddata', function () {
 			var result = mdq.select(data, 'list/*');
 			var expected = [
 				{
-					"name": "a",
-					"typ": "ulist",
-					"path": [0, 3, 2, 0, 0]
+					'name': 'a',
+					'typ': 'ulist',
+					'path': [0, 3, 2, 0, 0]
 				},
 				{
-					"name": "b",
-					"typ": "ulist",
-					"path": [0, 3, 2, 0, 1]
+					'name': 'b',
+					'typ': 'ulist',
+					'path': [0, 3, 2, 0, 1]
 				}
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
@@ -200,16 +200,16 @@ describe('mddata', function () {
 			var result = mdq.select(data, 'list/a/*');
 			var expected = [
 				{
-					"name": "x",
-					"typ": "ulist",
-					"path": [0, 3, 2, 0, 0, 0],
-					"value": "3"
+					'name': 'x',
+					'typ': 'ulist',
+					'path': [0, 3, 2, 0, 0, 0],
+					'value': '3'
 				},
 				{
-					"name": "y",
-					"typ": "ulist",
-					"path": [0, 3, 2, 0, 0, 1],
-					"value": "4"
+					'name': 'y',
+					'typ': 'ulist',
+					'path': [0, 3, 2, 0, 0, 1],
+					'value': '4'
 				}
 			];
 			assert.deepEqual(result, expected, 'selected nodes do not match expected nodes');
@@ -338,8 +338,8 @@ describe('mddata', function () {
 			};
 			var result = mdq.formatMarkdownList(table);
 			var expected =
-				"* ABC" + os.EOL +
-				"* [DEF](#def)";
+				'* ABC' + os.EOL +
+				'* [DEF](#def)';
 			assert.equal(result, expected);
 		});
 
@@ -353,8 +353,8 @@ describe('mddata', function () {
 			};
 			var result = mdq.formatMarkdownList(table);
 			var expected =
-				"* ABC: 123" + os.EOL +
-				"* [DEF](#def): `abc<>def`";
+				'* ABC: 123' + os.EOL +
+				'* [DEF](#def): `abc<>def`';
 			assert.equal(result, expected);
 		});
 
@@ -368,10 +368,10 @@ describe('mddata', function () {
 			};
 			var result = mdq.formatMarkdownTable(table);
 			var expected =
-				"| Column 1 | Column **2** |" + os.EOL +
-				"|----------|--------------|" + os.EOL +
-				"| ABC | 123 |" + os.EOL +
-				"| [DEF](#def) | `abc<>def` |";
+				'| Column 1 | Column **2** |' + os.EOL +
+				'|----------|--------------|' + os.EOL +
+				'| ABC | 123 |' + os.EOL +
+				'| [DEF](#def) | `abc<>def` |';
 			assert.equal(result, expected);
 		});
 	});
