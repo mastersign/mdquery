@@ -7,6 +7,7 @@ var assert = require('assert');
 var mdq = require('../src/index');
 
 var dataPath = './test/data/data.json';
+var data2Path = './test/data/data2.json';
 
 describe('mddata', function () {
 	'use strict';
@@ -16,7 +17,7 @@ describe('mddata', function () {
 		var data = null;
 
 		beforeEach(function () {
-			data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+			data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 		});
 
 		it('/Section 1 -> [Section 1]', function () {
@@ -219,9 +220,11 @@ describe('mddata', function () {
 	describe('tables', function () {
 
 		var data = null;
+		var data2 = null;
 
 		beforeEach(function () {
-			data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+			data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+			data2 = JSON.parse(fs.readFileSync(data2Path, 'utf8'));
 		});
 
 		it('/Section * -> cols=[Name], rows=1', function () {
@@ -325,6 +328,61 @@ describe('mddata', function () {
 			assert.deepEqual(result, expected, 'result does not match expected table');
 		});
 
+		it('/HL1 -> cols=[A], rows=0', function () {
+			var result = mdq.query(data2, {
+				selector: '/HL1',
+				columns: [{ name: 'Result', selector: 'A', attribute: 'value' }]
+			});
+			var expected = {
+				columns: [{ text: 'Result' }],
+				rows: [
+					[{ text: null }]
+				]
+			};
+			assert.deepEqual(result, expected, 'result does not match expected table');
+		});
+
+		it('/HL1 -> cols=[List/A], rows=1', function () {
+			var result = mdq.query(data2, {
+				selector: '/HL1',
+				columns: [{ name: 'Result', selector: 'List/A', attribute: 'value' }]
+			});
+			var expected = {
+				columns: [{ text: 'Result' }],
+				rows: [
+					[{ text: '123' }]
+				]
+			};
+			assert.deepEqual(result, expected, 'result does not match expected table');
+		});
+
+		it('/HL1/List -> cols=[A], rows=1', function () {
+			var result = mdq.query(data2, {
+				selector: '/HL1/List',
+				columns: [{ name: 'Result', selector: 'A', attribute: 'value' }]
+			});
+			var expected = {
+				columns: [{ text: 'Result' }],
+				rows: [
+					[{ text: '123' }]
+				]
+			};
+			assert.deepEqual(result, expected, 'result does not match expected table');
+		});
+
+		it('/HL1/List -> cols=[List/A], rows=1', function () {
+			var result = mdq.query(data2, {
+				selector: '/HL1/List',
+				columns: [{ name: 'Result', selector: 'List/A', attribute: 'value' }]
+			});
+			var expected = {
+				columns: [{ text: 'Result' }],
+				rows: [
+					[{ text: '456' }]
+				]
+			};
+			assert.deepEqual(result, expected, 'result does not match expected table');
+		});
 	});
 
 	describe('Markdown format', function () {
@@ -381,29 +439,29 @@ describe('mddata', function () {
 		describe('as a function', function () {
 
 			it('simple list transformation', function () {
-				var source = fs.readFileSync('./test/data/data-list-simple.md', 'utf-8');
-				var expected = fs.readFileSync('./test/data/data-list-simple.expected.md', 'utf-8');
+				var source = fs.readFileSync('./test/data/data-list-simple.md', 'utf8');
+				var expected = fs.readFileSync('./test/data/data-list-simple.expected.md', 'utf8');
 				var result = mdq.transform(source);
 				assert.equal(result, expected, 'Markdown text does meet the expectation');
 			});
 
 			it('simple table transformation', function () {
-				var source = fs.readFileSync('./test/data/data-table-simple.md', 'utf-8');
-				var expected = fs.readFileSync('./test/data/data-table-simple.expected.md', 'utf-8');
+				var source = fs.readFileSync('./test/data/data-table-simple.md', 'utf8');
+				var expected = fs.readFileSync('./test/data/data-table-simple.expected.md', 'utf8');
 				var result = mdq.transform(source);
 				assert.equal(result, expected, 'Markdown text does meet the expectation');
 			});
 
 			it('complex list transformation', function () {
-				var source = fs.readFileSync('./test/data/data-list-complex.md', 'utf-8');
-				var expected = fs.readFileSync('./test/data/data-list-complex.expected.md', 'utf-8');
+				var source = fs.readFileSync('./test/data/data-list-complex.md', 'utf8');
+				var expected = fs.readFileSync('./test/data/data-list-complex.expected.md', 'utf8');
 				var result = mdq.transform(source);
 				assert.equal(result, expected, 'Markdown text does meet the expectation');
 			});
 
 			it('complex table transformation', function () {
-				var source = fs.readFileSync('./test/data/data-table-complex.md', 'utf-8');
-				var expected = fs.readFileSync('./test/data/data-table-complex.expected.md', 'utf-8');
+				var source = fs.readFileSync('./test/data/data-table-complex.md', 'utf8');
+				var expected = fs.readFileSync('./test/data/data-table-complex.expected.md', 'utf8');
 				var result = mdq.transform(source);
 				assert.equal(result, expected, 'Markdown text does meet the expectation');
 			});
@@ -416,12 +474,12 @@ describe('mddata', function () {
 				var fakeFile = new File({
 					contents: new Buffer(fs.readFileSync('./test/data/data-table-complex.md'))
 				});
-				var expected = fs.readFileSync('./test/data/data-table-complex.expected.md', 'utf-8');
+				var expected = fs.readFileSync('./test/data/data-table-complex.expected.md', 'utf8');
 
 				var stream = mdq.transform();
 				stream.write(fakeFile);
 				stream.once('data', function (file) {
-					var result = file.contents.toString('utf-8');
+					var result = file.contents.toString('utf8');
 					assert.equal(result, expected, 'transformed file does not match expected file');
 					done();
 				});
