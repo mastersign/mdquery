@@ -140,7 +140,7 @@ var globPath = function globPath(coll, queryPath, absolute, path, result) {
 			selections.push([path.concat([i]), n]);
 		}
 	});
-	if (_.size(queryPath) == 1) {
+	if (_.size(queryPath) === 1) {
 		extendResultList(result, _.map(selections, formatResult));
 	} else if (_.size(queryPath) > 1) {
 		_.forEach(selections, function (s) {
