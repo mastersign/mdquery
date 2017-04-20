@@ -31,11 +31,11 @@
   "homepage": "https://github.com/mastersign/mdquery#readme",
   "license": "MIT",
   "dependencies": {
-    "lodash": "^3.0.0",
+    "lodash": "^4.0.0",
     "mddata": "^0.4.0",
-    "gulp-text-simple": "^0.3.0"
+    "gulp-text-simple": "^0.4.0"
   },
   "devDependencies": {
-    "vinyl": "^1.0.0"
+    "vinyl": "^2.0.0"
   }
 }
