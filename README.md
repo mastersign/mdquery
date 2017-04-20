@@ -20,7 +20,7 @@ _MdQuery_ can be used as a function or as a [Gulp] transformation.
 
 ## Interface
 
-_MdQuery_ makes use of [GulpText _simple_][gulp-text-simple] v0.3 to provide the API.
+_MdQuery_ makes use of [GulpText _simple_][gulp-text-simple] to provide the API.
 Therefore, it currently supports three ways of usage.
 
 1. Use the `readFileSync(path)` function, to get the processed
@@ -76,3 +76,4 @@ _MdQuery_ is published under the MIT license.
 [Gulp]: http://gulpjs.com
 [Markdown]: https://daringfireball.net/projects/markdown/
 [mdtables]: https://michelf.ca/projects/php-markdown/extra/#table
+[gulp-text-simple]: https://www.npmjs.com/package/gulp-text-simple
