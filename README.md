@@ -1,6 +1,7 @@
 # MdQuery
 
 [![npm package][npm-img]][npm-url]
+[![dependency status][libraries-img]][libraries-url]
 [![build status][travis-img]][travis-url]
 
 > creating tables from hierarchic structured data in Markdown documents
@@ -68,6 +69,8 @@ _MdQuery_ is published under the MIT license.
 
 [npm-url]: https://www.npmjs.com/package/mdquery
 [npm-img]: https://img.shields.io/npm/v/mdquery.svg
+[libraries-url]: https://libraries.io/npm/mdquery
+[libraries-img]: https://img.shields.io/librariesio/github/mastersign/mdquery.svg
 [travis-img]: https://img.shields.io/travis/mastersign/mdquery/master.svg
 [travis-url]: https://travis-ci.org/mastersign/mdquery
 [Gulp]: http://gulpjs.com
