@@ -16,6 +16,10 @@ a list, containing the result of the query.
 Take a look at the [test case for tables](test/data/data-table-complex.md) and
 the [test case for lists](test/data/data-list-complex.md) to get an impression, how it works.
 
+Since version 0.2.4, `filter` and `sort-by` statements are supported for lists and tables.
+Take a look at the [test case for filtered lists](test/data/data-list-filter.md) and
+[test case for sorted lists](test/data/data-list-sortby.md).
+
 _MdQuery_ can be used as a function or as a [Gulp] transformation.
 
 ## Interface
