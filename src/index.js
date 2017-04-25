@@ -269,7 +269,7 @@ var table = function (data, query) {
 			return _.every(query.filters, nodePredicate(data, node));
 		});
 	}
-	if (isArray(query.columns)) {
+	if (isArray(query.columns) && _.some(query.columns)) {
 		return {
 			columns: _.map(query.columns, function (col) {
 				return { text: col.name };
