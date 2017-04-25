@@ -243,6 +243,13 @@ var nodePredicate = function (data, node) {
 	};
 };
 
+var nodeSortCriterion = function (data, sortBy) {
+	return function (node) {
+		var testNode = findRelativeNode(data, node.path, sortBy.selector);
+		return nodeAttribute(testNode, sortBy.attribute);
+	};
+};
+
 var cellFromNode = function (node, attribute) {
 	'use strict';
 	if (!node) {
@@ -268,6 +275,15 @@ var table = function (data, query) {
 		nodes = _.filter(nodes, function (node) {
 			return _.every(query.filters, nodePredicate(data, node));
 		});
+	}
+	if (isArray(query.sortBys)) {
+		nodes = _.orderBy(nodes,
+			_.map(query.sortBys, function (sortBy) {
+				return nodeSortCriterion(data, sortBy);
+			}),
+			_.map(query.sortBys, function (sortBy) {
+				 return sortBy.direction ? sortBy.direction : 'asc';
+			}));
 	}
 	if (isArray(query.columns) && _.some(query.columns)) {
 		return {
@@ -411,9 +427,26 @@ var transformText = function (text) {
 			})
 			.filter()
 			.value();
+
+		// Parse Sort-Bys
+		var sortByRegex = /^#sort-by\s+([^\s\(]+)\((.*?)\)\s*(?::\s+([^\n]*?)\s*)?$/;
+		var sortBys = _
+			.chain(lines)
+			.map(function (l) {
+				var m = sortByRegex.exec(l);
+				if (m) {
+					return { attribute: m[1], selector: m[2], direction: m[3] };
+				} else {
+					return null;
+				}
+			})
+			.filter()
+			.value();
+
 		return {
 			columns: columns,
-			filters: filters
+			filters: filters,
+			sortBys: sortBys
 		};
 	};
 	var data = mdd(text);
@@ -431,23 +464,15 @@ var transformText = function (text) {
 		/<!--\s+#data-table\s+([^\n]*?)\s*\n\s*([\s\S]*?)\s+-->/gm,
 		function (m, s, d) {
 			var defs = parseDefinitions(d);
-			return formatMarkdownTable(table(data,
-				{
-					selector: s,
-					filters: defs.filters,
-					columns: defs.columns
-				}));
+			var query = _.assign(defs, { selector: s });
+			return formatMarkdownTable(table(data, query));
 		});
 	text = text.replace(
 		/<!--\s+#data-list\s+([^\n]*?)\s*\n\s*([\s\S]*?)\s+-->/gm,
 		function (m, s, d) {
 			var defs = parseDefinitions(d);
-			return formatMarkdownList(table(data,
-				{
-					selector: s,
-					filters: defs.filters,
-					columns: defs.columns
-				}));
+			var query = _.assign(defs, { selector: s });
+			return formatMarkdownList(table(data, query));
 		});
 	return text;
 };

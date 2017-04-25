@@ -480,6 +480,13 @@ describe('mddata', function () {
 				assert.equal(result, expected, 'Markdown text does meet the expectation');
 			});
 
+			it('sorted list transformation', function () {
+				var source = fs.readFileSync('./test/data/data-list-sort.md', 'utf8');
+				var expected = fs.readFileSync('./test/data/data-list-sort.expected.md', 'utf8');
+				var result = mdq.transform(source);
+				assert.equal(result, expected, 'Markdown text does meet the expectation');
+			});
+
 		});
 
 		describe('as a Gulp transformation', function () {
