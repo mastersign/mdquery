@@ -12,6 +12,10 @@ Selection of XYZ entries.
 * List 1.8: XYZABC
 * List 1.9: DEFXYZ
 
+Multiple filter.
+
+* List 1.6: ABCDEF
+
 # Chapter 1 {#ch1}
 
 Some text.

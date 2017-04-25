@@ -4,8 +4,6 @@ Selection of ABC entries.
 
 <!--
 #data-list /Chapter*/List *
-#column Label: name()
-#column Value: value()
 #filter value(): *ABC*
 -->
 
@@ -13,9 +11,15 @@ Selection of XYZ entries.
 
 <!--
 #data-list /Chapter*/List *
-#column Label: name()
-#column Value: value()
 #filter value(): *XYZ*
+-->
+
+Multiple filter.
+
+<!--
+#data-list /Chapter*/List *
+#filter value(): *E*
+#filter value(): *B*
 -->
 
 # Chapter 1 {#ch1}
