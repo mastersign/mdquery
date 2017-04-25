@@ -45,7 +45,7 @@ Give a string to process as [Markdown] text.
 
 ``` js
 var mdquery = require('mdquery').transform;
-var result = mdquery('# Intoduction ...');
+var result = mdquery('# Introduction ...');
 ```
 
 ### Create a Gulp transformation
