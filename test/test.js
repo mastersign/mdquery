@@ -466,6 +466,20 @@ describe('mddata', function () {
 				assert.equal(result, expected, 'Markdown text does meet the expectation');
 			});
 
+			it('filtered list transformation', function () {
+				var source = fs.readFileSync('./test/data/data-list-filter.md', 'utf8');
+				var expected = fs.readFileSync('./test/data/data-list-filter.expected.md', 'utf8');
+				var result = mdq.transform(source);
+				assert.equal(result, expected, 'Markdown text does meet the expectation');
+			});
+
+			it('filtered table transformation', function () {
+				var source = fs.readFileSync('./test/data/data-table-filter.md', 'utf8');
+				var expected = fs.readFileSync('./test/data/data-table-filter.expected.md', 'utf8');
+				var result = mdq.transform(source);
+				assert.equal(result, expected, 'Markdown text does meet the expectation');
+			});
+
 		});
 
 		describe('as a Gulp transformation', function () {

@@ -39,7 +39,13 @@ var parsePath = function (path) {
 	}
 };
 
-var buildCriterium = function (pathPart) {
+var buildCriterionRegex = function (pattern) {
+	return new RegExp(
+		'^' + _.escapeRegExp(pattern).
+		replace(/\\\*/g, '.*').replace(/\\\?/g, '.') + '$');
+};
+
+var buildCriterion = function (pathPart) {
 	'use strict';
 	var typTest = function (t) { return true; };
 	var separator = pathPart.indexOf(':');
@@ -49,9 +55,7 @@ var buildCriterium = function (pathPart) {
 		pathPart = pathPart.slice(separator + 1);
 	}
 
-	var regex = new RegExp(
-		'^' + _.escapeRegExp(pathPart).
-		replace(/\\\*/g, '.*').replace(/\\\?/g, '.') + '$');
+	var regex = buildCriterionRegex(pathPart);
 	return function (x) {
 		if (isText(x)) {
 			return regex.test(x);
@@ -132,10 +136,10 @@ var globPath = function globPath(coll, queryPath, absolute, path, result) {
 	}
 	path = path || [];
 	result = result || [];
-	var criterium = buildCriterium(queryPath[0]);
+	var criterion = buildCriterion(queryPath[0]);
 	var selections = [];
 	_.forEach(coll, function (n, i) {
-		if (criterium(n)) {
+		if (criterion(n)) {
 			__debug('GLOB Select ' + i + ': ' + formatData(n));
 			selections.push([path.concat([i]), n]);
 		}
@@ -176,14 +180,14 @@ var findNodes = function (coll, selector) {
 	return globPath(coll, queryPath, absolute);
 };
 
-var firstMatchingChild = function (node, criterium) {
+var firstMatchingChild = function (node, criterion) {
 	'use strict';
 	var nodesWithIndex = _.map(
 		node.children,
 		function (n, i) { return [i, n]; });
 	var matchingNodesWithIndex = _.filter(
 		nodesWithIndex,
-		function (r) { return criterium(r[1]); });
+		function (r) { return criterion(r[1]); });
 	return _.first(matchingNodesWithIndex);
 };
 
@@ -203,7 +207,7 @@ var findRelativeNode = function (coll, refPath, selector) {
 			refPath = _.dropRight(refPath);
 			n = resolvePath(coll, refPath);
 		} else {
-			var r = firstMatchingChild(n, buildCriterium(q));
+			var r = firstMatchingChild(n, buildCriterion(q));
 			if (r) {
 				__debug('FIND RELATIVE children: ' + q + ' -> ' + r[1].name);
 				n = r[1];
@@ -216,7 +220,30 @@ var findRelativeNode = function (coll, refPath, selector) {
 	return n;
 };
 
-var cellFromNode = function(node, attribute) {
+var nodeAttribute = function (node, attribute) {
+	'use strict';
+	if (!node) {
+		return null;
+	}
+	if (attribute === 'name') {
+		return node.name;
+	} else if (attribute === 'value') {
+		return node.value;
+	} else {
+		return 'unknown attribute: ' + attribute;
+	}
+};
+
+var nodePredicate = function (data, node) {
+	return function (filter) {
+		var testNode = findRelativeNode(data, node.path, filter.selector);
+		var testValue = nodeAttribute(testNode, filter.attribute);
+		var regex = buildCriterionRegex(filter.pattern);
+		return regex.test(testValue);
+	};
+};
+
+var cellFromNode = function (node, attribute) {
 	'use strict';
 	if (!node) {
 		return null;
@@ -237,6 +264,11 @@ var cellFromNode = function(node, attribute) {
 var table = function (data, query) {
 	'use strict';
 	var nodes = findNodes(data, query.selector);
+	if (isArray(query.filters)) {
+		nodes = _.filter(nodes, function (node) {
+			return _.every(query.filters, nodePredicate(data, node));
+		});
+	}
 	if (isArray(query.columns)) {
 		return {
 			columns: _.map(query.columns, function (col) {
@@ -346,19 +378,43 @@ var formatMarkdownTable = function (table) {
 
 var transformText = function (text) {
 	'use strict';
-	var parseColumns = function (spec) {
+	var parseDefinitions = function (spec) {
 		var lines = _.map(spec.split('\n'),
 			function (l) { return _.trim(l); });
+
+		// Parse Columns
 		var colRegex = /^#column\s+([^:]+?)\s*:\s+([^\s\(]+)\((.*?)\)$/;
-		var columns = _.map(lines, function (l) {
-			var m = colRegex.exec(l);
-			if (m) {
-				return { name: m[1], attribute: m[2], selector: m[3] };
-			} else {
-				return null;
-			}
-		});
-		return _.filter(columns);
+		var columns = _
+			.chain(lines)
+			.map(function (l) {
+				var m = colRegex.exec(l);
+				if (m) {
+					return { name: m[1], attribute: m[2], selector: m[3] };
+				} else {
+					return null;
+				}
+			})
+			.filter()
+			.value();
+
+		// Parse Filters
+		var filterRegex = /^#filter\s+([^\s\(]+)\((.*?)\)\s*:\s+([^\n]*?)\s*$/;
+		var filters = _
+			.chain(lines)
+			.map(function (l) {
+				var m = filterRegex.exec(l);
+				if (m) {
+					return { attribute: m[1], selector: m[2], pattern: m[3] };
+				} else {
+					return null;
+				}
+			})
+			.filter()
+			.value();
+		return {
+			columns: columns,
+			filters: filters
+		};
 	};
 	var data = mdd(text);
 	text = text.replace(
@@ -373,15 +429,25 @@ var transformText = function (text) {
 		});
 	text = text.replace(
 		/<!--\s+#data-table\s+([^\n]*?)\s*\n\s*([\s\S]*?)\s+-->/gm,
-		function (m, s, c) {
+		function (m, s, d) {
+			var defs = parseDefinitions(d);
 			return formatMarkdownTable(table(data,
-				{ selector: s, columns: parseColumns(c) }));
+				{
+					selector: s,
+					filters: defs.filters,
+					columns: defs.columns
+				}));
 		});
 	text = text.replace(
 		/<!--\s+#data-list\s+([^\n]*?)\s*\n\s*([\s\S]*?)\s+-->/gm,
-		function (m, s, c) {
+		function (m, s, d) {
+			var defs = parseDefinitions(d);
 			return formatMarkdownList(table(data,
-				{ selector: s, columns: parseColumns(c) }));
+				{
+					selector: s,
+					filters: defs.filters,
+					columns: defs.columns
+				}));
 		});
 	return text;
 };
