@@ -14,7 +14,14 @@ Selection of XYZ entries.
 #filter value(): *XYZ*
 -->
 
-Multiple filter.
+Multiple or filter.
+
+<!--
+#data-list /Chapter*/List *
+#filter value(): *E* | value(): G??
+-->
+
+Multiple and filter.
 
 <!--
 #data-list /Chapter*/List *

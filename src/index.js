@@ -234,12 +234,16 @@ var nodeAttribute = function (node, attribute) {
 	}
 };
 
-var nodePredicate = function (data, node) {
-	return function (filter) {
-		var testNode = findRelativeNode(data, node.path, filter.selector);
-		var testValue = nodeAttribute(testNode, filter.attribute);
-		var regex = buildCriterionRegex(filter.pattern);
-		return regex.test(testValue);
+var nodePredicate = function (data, andFilters) {
+	return function (node) {
+		return _.every(andFilters, function (orFilters) {
+			return _.some(orFilters, function (filter) {
+				var testNode = findRelativeNode(data, node.path, filter.selector);
+				var testValue = nodeAttribute(testNode, filter.attribute);
+				var regex = buildCriterionRegex(filter.pattern);
+				return regex.test(testValue);
+			});
+		});
 	};
 };
 
@@ -272,9 +276,7 @@ var table = function (data, query) {
 	'use strict';
 	var nodes = findNodes(data, query.selector);
 	if (isArray(query.filters)) {
-		nodes = _.filter(nodes, function (node) {
-			return _.every(query.filters, nodePredicate(data, node));
-		});
+		nodes = _.filter(nodes, nodePredicate(data,query.filters));
 	}
 	if (isArray(query.sortBys)) {
 		nodes = _.orderBy(nodes,
@@ -414,13 +416,31 @@ var transformText = function (text) {
 			.value();
 
 		// Parse Filters
-		var filterRegex = /^#filter\s+([^\s\(]+)\((.*?)\)\s*:\s+([^\n]*?)\s*$/;
+		var parseFilter = function (expr) {
+			var filterRegex = /^([^\s\(]+)\((.*?)\)\s*:\s+([^\n]*?)$/;
+			var parts = _.chain(expr.split('|'))
+				.map(function (s) { return s.trim(); })
+				.map(function (s) {
+					filterRegex.lastIndex = 0;
+					var m = filterRegex.exec(s);
+					if (m) {
+						return { attribute: m[1], selector: m[2], pattern: m[3] };
+					} else {
+						return null;
+					}
+				})
+				.filter()
+				.value();
+			return _.isEmpty(parts) ? null : parts;
+		};
+
+		var filterRegex = /^#filter\s+(.*?)\s*$/;
 		var filters = _
 			.chain(lines)
 			.map(function (l) {
 				var m = filterRegex.exec(l);
 				if (m) {
-					return { attribute: m[1], selector: m[2], pattern: m[3] };
+					return parseFilter(m[1]);
 				} else {
 					return null;
 				}

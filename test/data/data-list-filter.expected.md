@@ -12,7 +12,16 @@ Selection of XYZ entries.
 * List 1.8: XYZABC
 * List 1.9: DEFXYZ
 
-Multiple filter.
+Multiple or filter.
+
+* List 1.2: DEF
+* List 1.3: GHI
+* List 1.5: DEF
+* List 1.6: ABCDEF
+* List 1.7: DEF
+* List 1.9: DEFXYZ
+
+Multiple and filter.
 
 * List 1.6: ABCDEF
 
