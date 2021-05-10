@@ -31,12 +31,12 @@
   "homepage": "https://github.com/mastersign/mdquery#readme",
   "license": "MIT",
   "dependencies": {
-    "gulp-text-simple": "^0.5.2",
-    "lodash": "^4.17.11",
-    "mddata": "^0.4.2"
+    "gulp-text-simple": "^0.5.5",
+    "lodash": "^4.17.21",
+    "mddata": "^0.4.4"
   },
   "devDependencies": {
-    "mocha": "^5.2.0",
-    "vinyl": "^2.2.0"
+    "mocha": "^8.4.0",
+    "vinyl": "^2.2.1"
   }
 }
