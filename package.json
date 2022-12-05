@@ -36,7 +36,7 @@
     "mddata": "^0.4.4"
   },
   "devDependencies": {
-    "mocha": "^8.4.0",
+    "mocha": "^10.1.0",
     "vinyl": "^2.2.1"
   }
 }
